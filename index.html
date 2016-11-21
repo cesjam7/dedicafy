@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscador Spotify</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="col-sm-6 col-sm-offset-3">
+        <h1>Buscar canción</h1>
+        <div id="buscar-cancion">
+            <div class="form-group">
+                <input type="text" v-model="consulta" class="form-control input-lg" placeholder="Ingresar búsqueda">
+            </div>
+            <div class="form-group">
+                <button type="button" v-on:click="buscar" class="btn btn-success btn-block btn-lg">{{ buscarText }}</button>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item" v-for="cancion in canciones">
+                    <span class="label label-success" v-on:click="reproducir(cancion.preview)">
+                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                        Escuchar
+                    </span> &nbsp;
+                    <strong>{{ cancion.name }}</strong> ({{ cancion.autor }})
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

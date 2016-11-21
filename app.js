@@ -27,6 +27,7 @@ var buscar = new Vue({
 })
 
 var mostrarDatos = function(datos) {
+    buscar.canciones = [];
     for (var i=0; i < datos.length; i++) {
         if (datos[i].artists.length > 1) {
             var autores = [];

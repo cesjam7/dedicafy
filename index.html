@@ -72,7 +72,7 @@
             <button type="button" class="btn btn-success btn-block btn-lg" v-on:click="generar">Generar link</button>
             <div v-if="link">
                 <h3>Copia el siguiente link y envíaselo:</h3>
-                <div class="well well-sm mt20">{{ link }}</div>
+                <input type="text" id="seleccionar" v-bind:value="link" class="form-control input-lg" onClick="this.setSelectionRange(0, this.value.length)" />
             </div>
         </div>
     </div>

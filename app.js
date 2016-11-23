@@ -60,7 +60,9 @@ var dedicar = new Vue({
             this.seleccionado = true;
         },
         generar : function() {
-            this.link = url_dedicada + '?from=' + this.remitente + '&to=' + this.destinatario + '&id=' + this.seleccion.id;
+            if (this.remitente.length > 0 && this.destinatario.length > 0 && this.seleccion.id.length > 0) {
+                this.link = url_dedicada + '?from=' + this.remitente + '&to=' + this.destinatario + '&id=' + this.seleccion.id;
+            }
         }
     }
 })

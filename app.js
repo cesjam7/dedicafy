@@ -97,20 +97,27 @@ var recibir = new Vue({
         remitente : remitente,
         destinatario : destinatario,
         idcancion : idcancion,
-        cancion : false
+        cancion : {},
+        descubrir : false
+    },
+    created : function() {
+        this.traerDatos(this.idcancion);
     },
     methods : {
-        escuchar : function(id_cancion) {
+        traerDatos : function(id_cancion) {
             var apiUrl = "https://api.spotify.com/v1/tracks/"+id_cancion;
             var xhr = new XMLHttpRequest();
             xhr.open('GET', apiUrl);
             xhr.onload = function () {
                 resultado = JSON.parse(xhr.responseText)
-                var sonido = new Audio(resultado.preview_url);
-                sonido.play();
                 mostrarCancion(resultado);
             }
             xhr.send()
+        },
+        escuchar : function(preview_url) {
+            var sonido = new Audio(preview_url);
+            sonido.play();
+            this.descubrir = true;
         }
     }
 });
@@ -128,6 +135,7 @@ var mostrarCancion = function(datos) {
     recibir.cancion = {
         nombre : datos.name,
         cantante : autor,
+        preview_url : datos.preview_url,
         albun : datos.album.name,
         imagen : datos.album.images[0].url,
         link_spotify : datos.uri,

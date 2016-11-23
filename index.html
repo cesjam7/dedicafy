@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Buscador Spotify</title>
+    <title>Dedica una canción con Spotify</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="main.css">
 </head>
@@ -81,10 +81,10 @@
         <div class="col-sm-6 col-sm-offset-3 pb30" v-if="recibir">
             <h1>Hola {{ destinatario }}!</h1>
             <h2>{{ remitente }} te ha dedicado una canción</h2>
-            <button type="button" class="btn btn-success btn-block btn-lg mt20" v-on:click="escuchar(idcancion)">
+            <button type="button" class="btn btn-success btn-block btn-lg mt20" v-on:click="escuchar(cancion.preview_url)">
                 Descubrir canción
             </button>
-            <div class="panel panel-success mt20" v-if="cancion">
+            <div class="panel panel-success mt20" v-if="descubrir">
                 <div class="panel-heading">
                     Canción dedicada
                 </div>

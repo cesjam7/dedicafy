@@ -1,8 +1,28 @@
-var url_dedicada = 'file:///Users/hedwig/Documents/learning/buscador/dedicado.html';
+var url_dedicada = 'https://cesjam7.github.io/dedicafy/';
+
+var getParameterByName = function(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var remitente = getParameterByName('from');
+var destinatario = getParameterByName('to');
+var idcancion = getParameterByName('id');
+
+if (remitente.length > 0 && destinatario.length > 0 && idcancion.length > 0) {
+    modulo_dedicar = false;
+    modulo_recibir = true;
+} else {
+    modulo_dedicar = true;
+    modulo_recibir = false;
+}
 
 var dedicar = new Vue({
     el : '#dedicar-cancion',
     data: {
+        dedicar : modulo_dedicar,
         remitente : '',
         destinatario : '',
         consulta : '',
@@ -66,4 +86,50 @@ var mostrarDatos = function(datos) {
         dedicar.canciones.push(cancion);
     }
     dedicar.buscarText = 'Buscar';
+}
+
+var recibir = new Vue({
+    el : '#recibir-cancion',
+    data : {
+        recibir : modulo_recibir,
+        remitente : remitente,
+        destinatario : destinatario,
+        idcancion : idcancion,
+        cancion : false
+    },
+    methods : {
+        escuchar : function(id_cancion) {
+            var apiUrl = "https://api.spotify.com/v1/tracks/"+id_cancion;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', apiUrl);
+            xhr.onload = function () {
+                resultado = JSON.parse(xhr.responseText)
+                console.log(resultado);
+                mostrarCancion(resultado);
+                var preview = new Audio(resultado.preview_url);
+                preview.play();
+            }
+            xhr.send()
+        }
+    }
+});
+
+var mostrarCancion = function(datos) {
+    if (datos.artists.length > 1) {
+        var autores = [];
+        for (var a=0; a < datos.artists.length; a++) {
+            autores.push(datos.artists[a].name)
+        }
+        var autor = autores.join(', ');
+    } else {
+        var autor = datos.artists[0].name;
+    }
+    recibir.cancion = {
+        nombre : datos.name,
+        cantante : autor,
+        albun : datos.album.name,
+        imagen : datos.album.images[0].url,
+        link_spotify : datos.uri,
+        link_web : datos.external_urls.spotify
+    }
 }

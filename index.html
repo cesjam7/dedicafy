@@ -6,26 +6,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Buscador Spotify</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
-    <div class="col-sm-6 col-sm-offset-3">
-        <h1>Buscar canción</h1>
-        <div id="buscar-cancion">
-            <div class="form-group">
-                <input type="text" v-model="consulta" class="form-control input-lg" placeholder="Ingresar búsqueda">
+    <div id="dedicar-cancion" class="col-sm-6 col-sm-offset-3 pb30">
+        <h1>Dedica una canción</h1>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Datos Generales
             </div>
-            <div class="form-group">
-                <button type="button" v-on:click="buscar" class="btn btn-success btn-block btn-lg">{{ buscarText }}</button>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="remitente">Tu nombre</label>
+                            <input type="text" v-model="remitente" id="remitente" class="form-control input-lg">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="destinatario">Nombre de quién dedicas</label>
+                            <input type="text" v-model="destinatario" id="destinatario" class="form-control input-lg">
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <ul class="list-group">
-                <li class="list-group-item" v-for="cancion in canciones">
-                    <span class="label label-success" v-on:click="reproducir(cancion.preview)">
-                        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-                        Escuchar
-                    </span> &nbsp;
-                    <strong>{{ cancion.name }}</strong> ({{ cancion.autor }})
-                </li>
-            </ul>
+        </div>
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Selecciona la canción
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <input type="text" v-model="consulta" class="form-control input-lg" placeholder="Ingresar búsqueda">
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" v-on:click="buscar" class="btn btn-success btn-block btn-lg">{{ buscarText }}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <ul class="list-group mt20">
+                    <li class="list-group-item" v-for="cancion in canciones">
+                        <span class="label label-success pointer" v-on:click="reproducir(cancion.preview)">
+                            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                            Escuchar
+                        </span> &nbsp;
+                        <span class="label label-success pointer" v-on:click="seleccionar(cancion.id)">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            Seleccionar
+                        </span> &nbsp;
+                        <strong>{{ cancion.name }}</strong> ({{ cancion.autor }})
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer" v-if="seleccionado">
+                <strong>SELECCIONADO: {{ seleccion.name }}</strong> ({{ seleccion.autor }})
+            </div>
+        </div>
+        <button type="button" class="btn btn-success btn-block btn-lg" v-on:click="generar">Generar link</button>
+        <div v-if="link">
+            <h3>Copia el siguiente link y envíaselo:</h3>
+            <div class="well well-sm mt20">{{ link }}</div>
         </div>
     </div>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>

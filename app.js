@@ -1,11 +1,16 @@
-var preview = null
+var url_dedicada = 'file:///Users/hedwig/Documents/learning/buscador/dedicado.html';
 
-var buscar = new Vue({
-    el : '#buscar-cancion',
+var dedicar = new Vue({
+    el : '#dedicar-cancion',
     data: {
+        remitente : '',
+        destinatario : '',
         consulta : '',
         canciones : [],
-        buscarText : 'Buscar'
+        buscarText : 'Buscar',
+        seleccionado : false,
+        seleccion : {},
+        link : false
     },
     methods : {
         buscar : function () {
@@ -22,12 +27,26 @@ var buscar = new Vue({
         reproducir : function(preview_url) {
             var preview = new Audio(preview_url);
             preview.play();
+        },
+        seleccionar : function(id) {
+            var result = this.canciones.filter(function( obj ) {
+                return obj.id == id;
+            });
+            this.seleccion = {
+                name : result[0].name,
+                id : id,
+                autor : result[0].autor
+            }
+            this.seleccionado = true;
+        },
+        generar : function() {
+            this.link = url_dedicada + '?from=' + this.remitente + '&to=' + this.destinatario + '&id=' + this.seleccion.id;
         }
     }
 })
 
 var mostrarDatos = function(datos) {
-    buscar.canciones = [];
+    dedicar.canciones = [];
     for (var i=0; i < datos.length; i++) {
         if (datos[i].artists.length > 1) {
             var autores = [];
@@ -40,11 +59,11 @@ var mostrarDatos = function(datos) {
         }
         var cancion = {
             name : datos[i].name,
+            id : datos[i].id,
             autor : autor,
             preview : datos[i].preview_url
         }
-        buscar.canciones.push(cancion);
+        dedicar.canciones.push(cancion);
     }
-    buscar.buscarText = 'Buscar';
-    console.log(datos);
+    dedicar.buscarText = 'Buscar';
 }

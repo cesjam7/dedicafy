@@ -1,0 +1,13 @@
+.mt20 {
+    margin-top: 20px;
+}
+.pb30 {
+    padding-bottom: 30px;
+}
+.pointer {
+    cursor: pointer;
+}
+.list-group.mt20 {
+    max-height: 240px;
+    overflow: scroll;
+}

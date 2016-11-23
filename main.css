@@ -11,3 +11,8 @@
     max-height: 240px;
     overflow: scroll;
 }
+.by {
+    text-align: right;
+    margin-top: 10px;
+    font-size: 12px;
+}

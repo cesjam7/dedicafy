@@ -106,10 +106,9 @@ var recibir = new Vue({
             xhr.open('GET', apiUrl);
             xhr.onload = function () {
                 resultado = JSON.parse(xhr.responseText)
-                console.log(resultado);
                 mostrarCancion(resultado);
-                var preview = new Audio(resultado.preview_url);
-                preview.play();
+                var sonido = new Audio(resultado.preview_url);
+                sonido.play();
             }
             xhr.send()
         }
